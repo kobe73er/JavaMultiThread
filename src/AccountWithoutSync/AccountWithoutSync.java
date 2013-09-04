@@ -3,17 +3,19 @@ package AccountWithoutSync;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+//两种版本的同步方法
 public class AccountWithoutSync {
 	private static Account account = new Account();
 
 	public static void main(String args[]) {
 		ExecutorService executor = Executors.newCachedThreadPool();
-		for(int i=0;i<100;i++){
+		for (int i = 0; i < 100; i++) {
 			executor.execute(new AddPennyTask());
 		}
 		executor.shutdown();
-		while(!executor.isTerminated()){}
-		System.out.println("What is balance?"+ account.getBalacne());
+		while (!executor.isTerminated()) {
+		}
+		System.out.println("What is balance?" + account.getBalacne());
 	}
 
 	public static class AddPennyTask implements Runnable {
@@ -21,7 +23,9 @@ public class AccountWithoutSync {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			account.deposit(1);
+			synchronized (account) {
+				account.deposit(1);
+			}
 
 		}
 
@@ -33,8 +37,8 @@ public class AccountWithoutSync {
 		public int getBalacne() {
 			return balance;
 		}
-
-		public void deposit(int amount) {
+      
+		public /*synchronized*/ void deposit(int amount) {
 			int newBalance = balance + amount;
 			try {
 				Thread.sleep(5);
