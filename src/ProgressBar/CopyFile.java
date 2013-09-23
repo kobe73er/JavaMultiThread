@@ -19,10 +19,16 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class CopyFile extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JProgressBar jpb = new JProgressBar();
 	private JButton jbtCopy = new JButton("Copy");
 	private JTextField jtfFrom = new JTextField();
 	private JTextField jtfTo = new JTextField();
+	
+	//private ExecutorService executor=Executors.newCachedThreadPool();
 
 	public CopyFile() {
 		JPanel jPanel2 = new JPanel();
@@ -55,6 +61,8 @@ public class CopyFile extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				new Thread(new CopyFileTask()).start();
+				//executor.execute(new CopyFileTask());
+				//executor.shutdown();
 			}
 		});
 	}
